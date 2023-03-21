@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Камень ножницы бумага</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="logo"></div>
+    <div class="app"></div>
+
+    <script>
+        window.application = {
+            blocks: {},
+            screens: {},
+            renderScreen: function (screenName) {
+                if (!this.screens.hasOwnProperty(screenName)) {
+                    console.log('Такого экрана не существует.');
+                    return;
+                }
+                if (window.application.currentScreen === screenName) {
+                    return;
+                }
+                clearElement(app);
+                window.application.timers.forEach(timer => {
+                    clearInterval(timer);
+                });
+                window.application.currentScreen = screenName;
+                this.screens[screenName]();
+            },
+            renderBlock: function (blockName, container) {
+                if (!this.blocks.hasOwnProperty(blockName)) {
+                    console.log('Такого блока не существует.');
+                    return;
+                }
+                this.blocks[blockName](container);
+            },
+            timers: [],
+            token: [],
+            id: [],
+            enemy: [],
+        };
+    </script>
+
+    <script src="src/lib/request.js"></script>
+    <script src="src/blocks.js"></script>
+    <script src="src/screens.js"></script>
+
+    <script>
+
+        const app = document.querySelector('.app');
+        const backURL = 'https://skypro-rock-scissors-paper.herokuapp.com/';
+
+
+        // Вызываем функцию рендеринга экрана (начало)
+        window.application.renderScreen('login-screen');
+
+
+        //очистить элемент
+        function clearElement(element) {
+            element.textContent = '';
+        }
+
+    </script>
+
+
+</body>
+</html>
